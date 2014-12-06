@@ -1,6 +1,7 @@
 package duckhunt;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 
 /***
  * 
@@ -34,13 +35,18 @@ public class Duck implements ApplicationConstants {
 	 */
 	private boolean shot = false;
 	/**
-	 * this keeps of when the level is over
+	 * this keeps track of when the level is over
 	 */
 	private boolean levelEnded_ = false;
 	/**
 	 * 	
 	 */
 	private float radius_ = 0.15f;
+	/**
+	 * this is the file of the image
+	 */
+	private PImage duckskin_;
+	
 	/***
 	 * 
 	 * @param x
@@ -48,23 +54,37 @@ public class Duck implements ApplicationConstants {
 	 * @param angle
 	 * @param scale
 	 */
-	public Duck(float x, float y, float angle, float scale) {
+	
+	public Duck(PImage sprite, float x, float y, float angle, float scale) {
 		x_ = x;
 		y_ = y;
 		scale_ = scale;
+		duckskin_ = sprite;
 
 		// generate speed
 		float theta = (float) (Math.PI * Math.random());
 		float v = (float) (MAX_SPEED);
-		Vx_ = v * theApp_.cos(theta);
-		Vy_ = v * theApp_.sin(theta);
+		Vx_ = v * PApplet.cos(theta);
+		Vy_ = v * PApplet.sin(theta);
 	}
 
 	/**
 	 * 
 	 */
 	void draw() {
-
+		/*
+		//Constructing the body of the plane
+		theApp_.beginShape(PApplet.QUADS);
+		
+		theApp_.texture(duckskin_);
+		
+		theApp_.vertex(-_planeLength/2,-_planeWidth/2,0,0.7f);
+		theApp_.vertex(_planeLength/2,-_planeWidth/2,.9f,0.7f);
+		theApp_.vertex(_planeLength/2,_planeWidth/2,.9f,.9f);
+		theApp_.vertex(-_planeLength/2,_planeWidth/2,0,.9f);		
+		
+		theApp_.endShape();
+		*/
 		theApp_.pushMatrix();
 
 		theApp_.translate(x_, y_);

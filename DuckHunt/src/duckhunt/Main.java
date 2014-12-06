@@ -42,9 +42,12 @@ public class Main extends PApplet implements ApplicationConstants {
 		
 		//load image 0-1
 		textureMode(NORMAL);
+		
+		//Image loading section
+		PImage sprite_=loadImage("sprite.png");
 		_backgroundImage=loadImage("background.gif");
 
-		duck_.add(new Duck(WORLD_WIDTH / 4, WORLD_HEIGHT / 4, -PI / 4,PIXELS_TO_WORLD_SCALE / 4));
+		duck_.add(new Duck(sprite_,WORLD_WIDTH / 4, WORLD_HEIGHT / 4, -PI / 4,PIXELS_TO_WORLD_SCALE / 4));
 		// duck_.add(new Duck(WORLD_WIDTH/4, 3*WORLD_HEIGHT/4, PI/4,PIXELS_TO_WORLD_SCALE/4));
 		// duck_.add(new Duck(-WORLD_WIDTH/4, WORLD_HEIGHT/4, 3*PI/4,PIXELS_TO_WORLD_SCALE/4));
 		// duck_.add(new Duck(-WORLD_WIDTH/4, 3*WORLD_HEIGHT/4, 3*PI/4,PIXELS_TO_WORLD_SCALE/4));
@@ -58,7 +61,7 @@ public class Main extends PApplet implements ApplicationConstants {
 			obj.animate();
 
 		// We are still in pixel units.
-		translate(WINDOW_WIDTH / 2, WINDOW_HEIGHT);
+		translate(1, WINDOW_HEIGHT);
 		// change to world units
 		scale(WORLD_TO_PIXELS_SCALE, -WORLD_TO_PIXELS_SCALE);
 				

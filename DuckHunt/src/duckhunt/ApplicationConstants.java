@@ -13,8 +13,8 @@ public interface ApplicationConstants {
 	
 	float WORLD_HEIGHT = WINDOW_HEIGHT*PIXELS_TO_WORLD_SCALE;
 
-	float X_MIN = -WORLD_WIDTH/2;
-	float X_MAX = X_MIN + WORLD_WIDTH;
+	float X_MIN = 0;
+	float X_MAX = WORLD_WIDTH;
 	float Y_MIN = 0;
 	float Y_MAX = Y_MIN + WORLD_HEIGHT;
 
