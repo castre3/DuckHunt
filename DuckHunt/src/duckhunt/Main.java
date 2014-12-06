@@ -1,17 +1,18 @@
 package duckhunt;
-
 import java.util.ArrayList;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 
 public class Main extends PApplet implements ApplicationConstants {
 
 	private static final long serialVersionUID = 1L;
 
 	private boolean initApp_ = setAppForAllClasses();
+	/*
 	private int frameCounter_ = 0;
 	private int lastDrawTime_ = 0;
-	private int selectedIndex = 0;
+	*/
 
 	/**
 	 * The list containing all of the ducks
@@ -26,13 +27,22 @@ public class Main extends PApplet implements ApplicationConstants {
 	 * Keeps track of how many times the person has tried and shot
 	 */
 	private int tryCount = 0;
+	/**
+	 * The background.
+	 */
+	PImage _backgroundImage;
 
 	public void setup() {
-		size(WINDOW_WIDTH, WINDOW_HEIGHT);
+		size(WINDOW_WIDTH, WINDOW_HEIGHT,P3D);
+		
 		// this is for debugging
 		// frameRate(2000);
 		frameRate(100);
 		duck_ = new ArrayList<Duck>();
+		
+		//load image 0-1
+		textureMode(NORMAL);
+		_backgroundImage=loadImage("background.gif");
 
 		duck_.add(new Duck(WORLD_WIDTH / 4, WORLD_HEIGHT / 4, -PI / 4,PIXELS_TO_WORLD_SCALE / 4));
 		// duck_.add(new Duck(WORLD_WIDTH/4, 3*WORLD_HEIGHT/4, PI/4,PIXELS_TO_WORLD_SCALE/4));
@@ -41,7 +51,8 @@ public class Main extends PApplet implements ApplicationConstants {
 	}
 
 	public void draw() {
-		background(127);
+		//Background world setup - etc
+		drawBackground();
 		
 		for (Duck obj : duck_)
 			obj.animate();
@@ -61,15 +72,34 @@ public class Main extends PApplet implements ApplicationConstants {
 			}
 		}
 		popMatrix();
-
 	}
+	
+	/**
+	 * sets up the background and displays it
+	 */
+	private void drawBackground() {
+		beginShape();
+
+		texture(_backgroundImage);
+
+		vertex(0,0,0,0);
+		vertex(0,height,0,1);   
+		vertex(width,height,1,1);   
+		vertex(width,0,1,0);
+
+	   endShape(CLOSE); 
+	}
+
+	/**
+	 * 
+	 */
 	public void keyReleased() {
 		switch (key) {
 		case '0':
 		case '1':
 		case '2':
 		case '3':
-			selectedIndex = Integer.parseInt("" + key);
+			int selectedIndex = Integer.parseInt("" + key);
 			break;
 		}
 	}
@@ -104,14 +134,12 @@ public class Main extends PApplet implements ApplicationConstants {
 	private void checkLevelComplete() {
 		//if the person has used all of their chances. 
 		if (tryCount == 3) {
-			
 			for (Duck obj : duck_) {
 				obj.levelEnded();
 				obj.setVx(0); // temporarily make it not move
 				obj.setVy(0);
 				delay(500); // do the "pause" thing
-				obj.setVy(1f); // make it fall off screen
-				break; 
+				obj.setVy(1f); // make it fly up screen
 			}
 		}
 		

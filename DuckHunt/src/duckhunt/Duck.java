@@ -4,7 +4,8 @@ import processing.core.PApplet;
 
 /***
  * 
- * @author castre3
+ * @author Elizabeth Castro
+ * @author Nicholas Moreau
  *
  */
 public class Duck implements ApplicationConstants {
@@ -59,7 +60,7 @@ public class Duck implements ApplicationConstants {
 		Vy_ = v * theApp_.sin(theta);
 	}
 
-	/*
+	/**
 	 * 
 	 */
 	void draw() {
