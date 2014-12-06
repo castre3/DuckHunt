@@ -8,16 +8,16 @@ import processing.core.PApplet;
  *
  */
 public class Duck implements ApplicationConstants {
-	/*
-	 * 
+	/**
+	 * The local instance of the application
 	 */
 	private static PApplet theApp_;
 	/**
-	 * 
+	 * how long it takes the duck to fly across screen
 	 */
 	private static final float ACROSS_WORLD_TIME = 2.5f;  /* seconds*/
-	/*
-	 * 
+	/**
+	 * The max speed the duck can go
 	 */
 	private static final float MAX_SPEED = WORLD_WIDTH / ACROSS_WORLD_TIME;
 	/*
