@@ -1,6 +1,7 @@
 package duckhunt;
 
 import processing.core.PApplet;
+import processing.core.PConstants;
 import processing.core.PImage;
 
 /***
@@ -17,7 +18,7 @@ public class Duck implements ApplicationConstants {
 	/**
 	 * how long it takes the duck to fly across screen
 	 */
-	private static final float ACROSS_WORLD_TIME = 2.5f; /* seconds */
+	private static final float ACROSS_WORLD_TIME = 1f; /* seconds */
 	/**
 	 * The max speed the duck can go
 	 */
@@ -46,7 +47,12 @@ public class Duck implements ApplicationConstants {
 	 * this is the file of the image
 	 */
 	private PImage duckskin_;
-	
+
+	/**
+	 * this will determine what sprite to draw
+	 */
+	private boolean duckWingUp_ = true;
+
 	/***
 	 * 
 	 * @param x
@@ -54,7 +60,6 @@ public class Duck implements ApplicationConstants {
 	 * @param angle
 	 * @param scale
 	 */
-	
 	public Duck(PImage sprite, float x, float y, float angle, float scale) {
 		x_ = x;
 		y_ = y;
@@ -72,47 +77,48 @@ public class Duck implements ApplicationConstants {
 	 * 
 	 */
 	void draw() {
+
+		// Constructing the body of the plane theApp_.strokeWeight(0.01f);
 		/*
-		//Constructing the body of the plane
-		theApp_.beginShape(PApplet.QUADS);
-		
-		theApp_.texture(duckskin_);
-		
-		theApp_.vertex(-_planeLength/2,-_planeWidth/2,0,0.7f);
-		theApp_.vertex(_planeLength/2,-_planeWidth/2,.9f,0.7f);
-		theApp_.vertex(_planeLength/2,_planeWidth/2,.9f,.9f);
-		theApp_.vertex(-_planeLength/2,_planeWidth/2,0,.9f);		
-		
-		theApp_.endShape();
-		*/
-		theApp_.pushMatrix();
+		  theApp_.noStroke(); theApp_.beginShape(PApplet.QUADS);
+		  
+		  theApp_.texture(duckskin_);
+		  
+		  theApp_.vertex(0, 0, .65f, .38f); theApp_.vertex(0, .15f, .65f, .3f);
+		  theApp_.vertex(.15f, .15f, .55f, .3f); theApp_.vertex(.15f, 0, .55f,
+		  .38f);
+		  
+		  theApp_.endShape();
+		 */
 
-		theApp_.translate(x_, y_);
+		if (duckWingUp_) {
+			
+			theApp_.pushMatrix();
 
-		theApp_.strokeWeight(0.01f);
-		theApp_.stroke(0, 0, 0);
-		theApp_.ellipse(0, 0, radius_, radius_);
+			theApp_.translate(x_, y_);
 
-		theApp_.scale(scale_);
+			theApp_.strokeWeight(0.01f);
+			theApp_.stroke(0, 0, 0);
+			theApp_.fill(120, 174, 198);
+			theApp_.ellipse(0, 0, radius_, radius_);
 
-		theApp_.noStroke();
-		theApp_.fill(120, 174, 198);
+			theApp_.popMatrix();
 
-		theApp_.ellipse(-50, +0, 140, 130); // right ear
-		theApp_.ellipse(+50, +0, 140, 130); // left ear
-		theApp_.ellipse(+0, +10, 150, 280);
+		} else {
 
-		theApp_.fill(255);
-		theApp_.ellipse(-30, -40, 40, 60);
-		theApp_.fill(20, 90, 130);
-		theApp_.ellipse(-28, -45, 25, 28);
+			theApp_.pushMatrix();
 
-		theApp_.fill(255);
-		theApp_.ellipse(+30, -40, 40, 60);
-		theApp_.fill(20, 90, 130);
-		theApp_.ellipse(+32, -45, 25, 28);
+			theApp_.translate(x_, y_);
 
-		theApp_.popMatrix();
+			theApp_.strokeWeight(0.01f);
+			theApp_.stroke(0, 0, 0);
+			theApp_.fill(124, 42, 206);
+			theApp_.ellipse(0, 0, radius_, radius_);
+
+			
+			theApp_.popMatrix();
+			
+		}
 	}
 
 	/**
@@ -128,15 +134,18 @@ public class Duck implements ApplicationConstants {
 		}
 
 		// hit top or bottom bound
-		if (((y_ < Y_MIN) || (y_ >= Y_MAX)) && !shot) {
+		if ((((y_-(radius_/2)) < (Y_MAX * 1 / 3)) || ((y_ +(radius_/2))>= Y_MAX)) && !shot) {
 			Vy_ = -Vy_;
 		}
 	}
 
 	/***
 	 * changed the location of the duck
-	 * @param x float the x location
-	 * @param y float the y location
+	 * 
+	 * @param x
+	 *            float the x location
+	 * @param y
+	 *            float the y location
 	 */
 	public void setPosition(float x, float y) {
 		x_ = x;
@@ -182,24 +191,35 @@ public class Duck implements ApplicationConstants {
 		shot = true;
 		levelEnded();
 	}
+
 	/***
 	 * sets the fact that the level has ended
 	 */
 	public void levelEnded() {
 		levelEnded_ = true;
 	}
+
 	/***
 	 * determines if the level has ended
 	 */
 	public boolean getLevelEnded() {
 		return levelEnded_;
 	}
+
 	/***
 	 * reports if the duck is shot.
 	 */
 	public boolean getShot() {
 		return shot;
 	}
+
+	/***
+	 * this sets which bird view will be displayed
+	 */
+	public void switchBirdWing() {
+		duckWingUp_ = !duckWingUp_;
+	}
+
 	/***
 	 * 
 	 * @param theApp
