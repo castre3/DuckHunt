@@ -39,7 +39,9 @@ public class Timer implements Runnable {
 	public void run(){
 	
 		while(true){
-			if(Main.getStatic()){
+			//reset the switch value to false after a switch time sequence has occurred
+			Main.resetSwitchTimerValue(); 
+			if(Main.getDogAnimateValueFromThread()){
 				endTime = currentTime + timeForDogAnimation_;
 			}
 			else{
@@ -54,10 +56,10 @@ public class Timer implements Runnable {
 	 * Until we get to the endTime, continue looping, then switch the static value
 	 */
 	private void startTimer(){
-		while(currentTime < endTime){
+		while(currentTime < endTime && !Main.getSwitchTimerValue()){
 			currentTime = theApp_.millis();
 		}
-		Main.setStatic(!Main.getStatic());
+		Main.setDogAnimateValueFromThread(!Main.getDogAnimateValueFromThread());
 	}
 	
 	/**
@@ -67,8 +69,4 @@ public class Timer implements Runnable {
 	public static void setApp(PApplet theApp) {
 		theApp_ = theApp;
 	}
-	
-	
-	
-
 }

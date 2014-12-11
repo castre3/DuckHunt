@@ -26,7 +26,7 @@ public class Duck implements ApplicationConstants {
 	/**
 	 * the x and y location as well as the scale
 	 */
-	private float x_, y_, scale_;
+	private float x_, y_;
 	/**
 	 * x and y velocity
 	 */
@@ -60,10 +60,9 @@ public class Duck implements ApplicationConstants {
 	 * @param angle
 	 * @param scale
 	 */
-	public Duck(PImage sprite, float x, float y, float angle, float scale) {
+	public Duck(PImage sprite, float x, float y, float angle) {
 		x_ = x;
 		y_ = y;
-		scale_ = scale;
 		duckskin_ = sprite;
 
 		// generate speed
@@ -74,25 +73,23 @@ public class Duck implements ApplicationConstants {
 	}
 
 	/**
-	 * 
+	 * draws the duck
 	 */
 	void draw() {
 
-		// Constructing the body of the plane theApp_.strokeWeight(0.01f);
-		/*
-		  theApp_.noStroke(); theApp_.beginShape(PApplet.QUADS);
-		  
-		  theApp_.texture(duckskin_);
-		  
-		  theApp_.vertex(0, 0, .65f, .38f); theApp_.vertex(0, .15f, .65f, .3f);
-		  theApp_.vertex(.15f, .15f, .55f, .3f); theApp_.vertex(.15f, 0, .55f,
-		  .38f);
-		  
-		  theApp_.endShape();
-		 */
-
 		if (duckWingUp_) {
-			
+			  theApp_.noStroke(); theApp_.beginShape(PApplet.QUADS);
+			  
+			  theApp_.texture(duckskin_);
+			  
+			  theApp_.vertex(0, 0, .65f, .38f); 
+			  theApp_.vertex(0, .15f, .65f, .3f);
+			  theApp_.vertex(.15f, .15f, .55f, .3f); 
+			  theApp_.vertex(.15f, 0, .55f,
+			  .38f);
+			  
+			  theApp_.endShape();
+			/*
 			theApp_.pushMatrix();
 
 			theApp_.translate(x_, y_);
@@ -102,10 +99,21 @@ public class Duck implements ApplicationConstants {
 			theApp_.fill(120, 174, 198);
 			theApp_.ellipse(0, 0, radius_, radius_);
 
-			theApp_.popMatrix();
+			theApp_.popMatrix();*/
 
 		} else {
-
+			  theApp_.noStroke(); theApp_.beginShape(PApplet.QUADS);
+			  
+			  theApp_.fill(120, 174, 198);
+			  
+			  theApp_.vertex(0, 0, .65f, .38f); 
+			  theApp_.vertex(0, .15f, .65f, .3f);
+			  theApp_.vertex(.15f, .15f, .55f, .3f); 
+			  theApp_.vertex(.15f, 0, .55f,
+			  .38f);
+			  
+			  theApp_.endShape();
+/*
 			theApp_.pushMatrix();
 
 			theApp_.translate(x_, y_);
@@ -117,6 +125,7 @@ public class Duck implements ApplicationConstants {
 
 			
 			theApp_.popMatrix();
+			*/
 			
 		}
 	}
@@ -134,18 +143,15 @@ public class Duck implements ApplicationConstants {
 		}
 
 		// hit top or bottom bound
-		if ((((y_-(radius_/2)) < (Y_MAX * 1 / 3)) || ((y_ +(radius_/2))>= Y_MAX)) && !shot) {
+		if (((y_ < (Y_MAX * 1 / 3)) || (y_>= Y_MAX)) && !shot) {
 			Vy_ = -Vy_;
 		}
 	}
 
 	/***
 	 * changed the location of the duck
-	 * 
-	 * @param x
-	 *            float the x location
-	 * @param y
-	 *            float the y location
+	 * @param x float the x location
+	 * @param y float the y location
 	 */
 	public void setPosition(float x, float y) {
 		x_ = x;
@@ -153,16 +159,16 @@ public class Duck implements ApplicationConstants {
 	}
 
 	/***
-	 * 
-	 * @return
+	 * returns the x location
+	 * @return x
 	 */
 	public float getX() {
 		return x_;
 	}
 
 	/***
-	 * 
-	 * @return
+	 * returns the y location
+	 * @return y
 	 */
 	public float getY() {
 		return y_;
@@ -221,24 +227,20 @@ public class Duck implements ApplicationConstants {
 	}
 
 	/***
-	 * 
-	 * @param theApp
-	 */
-	public static void setApp(PApplet theApp) {
-		theApp_ = theApp;
-	}
-
-	/***
-	 * 
+	 * Determines if the click is in the duck
 	 * @param x
 	 * @param y
 	 * @return
 	 */
 	public boolean isInside(float x, float y) {
-
 		float dx = x - x_, dy = y - y_;
-
 		return (dx * dx + dy * dy < radius_ * radius_);
 	}
-
+	/***
+	 * Sets the Main instance of the app
+	 * @param theApp
+	 */
+	public static void setApp(PApplet theApp) {
+		theApp_ = theApp;
+	}
 }
