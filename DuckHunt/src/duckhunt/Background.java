@@ -44,6 +44,8 @@ public class Background implements ApplicationConstants {
 		theApp_.popMatrix();
 
 	}
+	
+	void drawGround(){}
 
 	/***
 	 * 
