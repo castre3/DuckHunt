@@ -151,6 +151,7 @@ public class Main extends PApplet implements ApplicationConstants {
 				}
 			}
 		}
+		background_.drawGround();
 	}
 
 	/**
