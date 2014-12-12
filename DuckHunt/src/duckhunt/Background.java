@@ -29,23 +29,21 @@ public class Background implements ApplicationConstants {
 		theApp_.vertex(0, WINDOW_HEIGHT, 0, 1);
 		theApp_.vertex(WINDOW_WIDTH, WINDOW_HEIGHT, 1, 1);
 		theApp_.vertex(WINDOW_WIDTH, 0, 1, 0);
-
 		theApp_.endShape(PConstants.CLOSE);
-		theApp_.noFill();
+
 		theApp_.beginShape();
-		theApp_.pushMatrix();
 		theApp_.texture(ground_);
-		theApp_.vertex(0, 4 * WINDOW_HEIGHT / 6, 0, 0);
+		theApp_.vertex(0, 4 * WINDOW_HEIGHT / 6 - 1.5f, 0, 0);
 		theApp_.vertex(0, WINDOW_HEIGHT, 0, 1);
 		theApp_.vertex(WINDOW_WIDTH, WINDOW_HEIGHT, 1, 1);
-		theApp_.vertex(WINDOW_WIDTH, 4 * WINDOW_HEIGHT / 6, 1, 0);
+		theApp_.vertex(WINDOW_WIDTH, 4 * WINDOW_HEIGHT / 6 - 1.5f, 1, 0);
 
 		theApp_.endShape(PConstants.CLOSE);
-		theApp_.popMatrix();
+	}
+
+	void drawGround() {
 
 	}
-	
-	void drawGround(){}
 
 	/***
 	 * 
