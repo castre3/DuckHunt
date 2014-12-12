@@ -42,16 +42,12 @@ public class Duck implements ApplicationConstants {
 	/**
 	 * 	
 	 */
-	private float radius_ = 0.15f;
+	private float length_ = 0.15f;
 	/**
 	 * this is the file of the image
 	 */
 	private PImage duckskin_;
 
-	/**
-	 * this will determine what sprite to draw
-	 */
-	private boolean duckWingUp_ = true;
 	/**
 	 * this determines the sprite to use for the duck
 	 */
@@ -78,35 +74,34 @@ public class Duck implements ApplicationConstants {
 	/**
 	 * draws the duck
 	 */
-
-	/*
- 	  
- */
-
 	void draw() {
 
 		switch (duckWing_) {
-		case 1:
+		case 1: //wing down
 			theApp_.noStroke();
 			theApp_.beginShape(PApplet.QUADS);
 			theApp_.texture(duckskin_);
 			theApp_.translate(x_, y_);
 			if (Vx_ <= 0) {
+				// bottom left
 				theApp_.vertex(0, 0, .65f, .38f);
-				theApp_.vertex(0, .15f, .65f, .3f);
-				theApp_.vertex(.15f, .15f, .55f, .3f);
-				theApp_.vertex(.15f, 0, .55f, .38f);
+				// top left
+				theApp_.vertex(0, length_, .65f, .3f);
+				// top right
+				theApp_.vertex(length_, length_, .55f, .3f);
+				// bottom right
+				theApp_.vertex(length_, 0, .55f, .38f);
 
 			} else {
 				theApp_.vertex(0, 0, .55f, .38f);
-				theApp_.vertex(0, .15f, .55f, .3f);
-				theApp_.vertex(.15f, .15f, .65f, .3f);
-				theApp_.vertex(.15f, 0, .65f, .38f);
+				theApp_.vertex(0, length_, .55f, .3f);
+				theApp_.vertex(length_, length_, .65f, .3f);
+				theApp_.vertex(length_, 0, .65f, .38f);
 			}
 
 			theApp_.endShape();
 			break;
-		case 2:
+		case 2: //wing middle
 			theApp_.noStroke();
 			theApp_.beginShape(PApplet.QUADS);
 
@@ -114,20 +109,20 @@ public class Duck implements ApplicationConstants {
 			theApp_.translate(x_, y_);
 			if (Vx_ <= 0) {
 				theApp_.vertex(0, 0, .55f, .38f);
-				theApp_.vertex(0, .15f, .55f, .3f);
-				theApp_.vertex(.15f, .15f, .45f, .3f);
-				theApp_.vertex(.15f, 0, .45f, .38f);
+				theApp_.vertex(0, length_, .55f, .3f);
+				theApp_.vertex(length_, length_, .45f, .3f);
+				theApp_.vertex(length_, 0, .45f, .38f);
 
 			} else {
 				theApp_.vertex(0, 0, .45f, .38f);
-				theApp_.vertex(0, .15f, .45f, .3f);
-				theApp_.vertex(.15f, .15f, .55f, .3f);
-				theApp_.vertex(.15f, 0, .55f, .38f);
+				theApp_.vertex(0, length_, .45f, .3f);
+				theApp_.vertex(length_, length_, .55f, .3f);
+				theApp_.vertex(length_, 0, .55f, .38f);
 			}
 
 			theApp_.endShape();
 			break;
-		case 3:
+		case 3://wing up
 			theApp_.noStroke();
 			theApp_.beginShape(PApplet.QUADS);
 			theApp_.texture(duckskin_);
@@ -135,15 +130,123 @@ public class Duck implements ApplicationConstants {
 
 			if (Vx_ <= 0) {
 				theApp_.vertex(0, 0, .45f, .38f);
-				theApp_.vertex(0, .15f, .45f, .3f);
-				theApp_.vertex(.15f, .15f, .35f, .3f);
-				theApp_.vertex(.15f, 0, .35f, .38f);
+				theApp_.vertex(0, length_, .45f, .3f);
+				theApp_.vertex(length_, length_, .35f, .3f);
+				theApp_.vertex(length_, 0, .35f, .38f);
 
 			} else {
 				theApp_.vertex(0, 0, .35f, .38f);
-				theApp_.vertex(0, .15f, .35f, .3f);
-				theApp_.vertex(.15f, .15f, .45f, .3f);
-				theApp_.vertex(.15f, 0, .45f, .38f);
+				theApp_.vertex(0, length_, .35f, .3f);
+				theApp_.vertex(length_, length_, .45f, .3f);
+				theApp_.vertex(length_, 0, .45f, .38f);
+			}
+
+			theApp_.endShape();
+			break;
+		case 4: //wing down
+			theApp_.noStroke();
+			theApp_.beginShape(PApplet.QUADS);
+			theApp_.texture(duckskin_);
+			theApp_.translate(x_, y_);
+			if (Vx_ <= 0) {
+				// bottom left
+				theApp_.vertex(0, 0, .65f, .58f);
+				// top left
+				theApp_.vertex(0, length_, .65f, .5f);
+				// top right
+				theApp_.vertex(length_, length_, .55f, .5f);
+				// bottom right
+				theApp_.vertex(length_, 0, .55f, .58f);
+
+			} else {
+				theApp_.vertex(0, 0, .55f, .58f);
+				theApp_.vertex(0, length_, .55f, .5f);
+				theApp_.vertex(length_, length_, .65f, .5f);
+				theApp_.vertex(length_, 0, .65f, .58f);
+			}
+
+			theApp_.endShape();
+			break;
+		case 5: //fly away middle
+			theApp_.noStroke();
+			theApp_.beginShape(PApplet.QUADS);
+
+			theApp_.texture(duckskin_);
+			theApp_.translate(x_, y_);
+			if (Vx_ <= 0) {
+				theApp_.vertex(0, 0, .55f, .58f);
+				theApp_.vertex(0, length_, .55f, .5f);
+				theApp_.vertex(length_, length_, .45f, .5f);
+				theApp_.vertex(length_, 0, .45f, .58f);
+
+			} else {
+				theApp_.vertex(0, 0, .45f, .58f);
+				theApp_.vertex(0, length_, .45f, .5f);
+				theApp_.vertex(length_, length_, .55f, .5f);
+				theApp_.vertex(length_, 0, .55f, .58f);
+			}
+
+			theApp_.endShape();
+			break;
+		case 6://wing up fly away
+			theApp_.noStroke();
+			theApp_.beginShape(PApplet.QUADS);
+			theApp_.texture(duckskin_);
+			theApp_.translate(x_, y_);
+
+			if (Vx_ <= 0) {
+				theApp_.vertex(0, 0, .45f, .58f);
+				theApp_.vertex(0, length_, .45f, .5f);
+				theApp_.vertex(length_, length_, .35f, .5f);
+				theApp_.vertex(length_, 0, .35f, .58f);
+
+			} else {
+				theApp_.vertex(0, 0, .35f, .58f);
+				theApp_.vertex(0, length_, .35f, .5f);
+				theApp_.vertex(length_, length_, .45f, .5f);
+				theApp_.vertex(length_, 0, .45f, .58f);
+			}
+
+			theApp_.endShape();
+			break;
+		case 7: //down
+			theApp_.noStroke();
+			theApp_.beginShape(PApplet.QUADS);
+			theApp_.texture(duckskin_);
+			theApp_.translate(x_, y_);
+
+			if (Vx_ <= 0) {
+				theApp_.vertex(0, 0, .55f, .68f);
+				theApp_.vertex(0, length_, .55f, .6f);
+				theApp_.vertex(length_, length_, .45f, .6f);
+				theApp_.vertex(length_, 0, .45f, .68f);
+
+			} else {
+				theApp_.vertex(0, 0, .45f, .38f);
+				theApp_.vertex(0, length_, .45f, .3f);
+				theApp_.vertex(length_, length_, .55f, .3f);
+				theApp_.vertex(length_, 0, .55f, .38f);
+			}
+
+			theApp_.endShape();
+			break;
+		case 8: // splat
+			theApp_.noStroke();
+			theApp_.beginShape(PApplet.QUADS);
+			theApp_.texture(duckskin_);
+			theApp_.translate(x_, y_);
+
+			if (Vx_ <= 0) {
+				theApp_.vertex(0, 0, .45f, .68f);
+				theApp_.vertex(0, length_, .45f, .6f);
+				theApp_.vertex(length_, length_, .35f, .6f);
+				theApp_.vertex(length_, 0, .35f, .68f);
+
+			} else {
+				theApp_.vertex(0, 0, .35f, .38f);
+				theApp_.vertex(0, length_, .35f, .3f);
+				theApp_.vertex(length_, length_, .45f, .3f);
+				theApp_.vertex(length_, 0, .45f, .38f);
 			}
 
 			theApp_.endShape();
@@ -159,12 +262,12 @@ public class Duck implements ApplicationConstants {
 		y_ += Vy_ * 0.01f;
 
 		// hit left or right bound bounce
-		if ((x_ < X_MIN) || (x_ >= X_MAX)) {
+		if ((x_ < X_MIN) || (x_ >= X_MAX-.15f)) {
 			Vx_ = -Vx_;
 		}
 
 		// hit top or bottom bound
-		if (((y_ < (Y_MAX * 1 / 3)) || (y_ >= Y_MAX)) && !shot && !levelEnded_) {
+		if (((y_ < (Y_MAX * 1 / 3)) || (y_ >= Y_MAX- .15f)) && !shot && !levelEnded_) {
 			Vy_ = -Vy_;
 		}
 	}
@@ -172,10 +275,8 @@ public class Duck implements ApplicationConstants {
 	/***
 	 * changed the location of the duck
 	 * 
-	 * @param x
-	 *            float the x location
-	 * @param y
-	 *            float the y location
+	 * @param x float the x location
+	 * @param y float the y location
 	 */
 	public void setPosition(float x, float y) {
 		x_ = x;
@@ -246,27 +347,50 @@ public class Duck implements ApplicationConstants {
 	}
 
 	/***
-	 * this sets which bird view will be displayed
+	 * this sets which bird flying in play
 	 */
-	public void switchBirdWing() {
-		if (duckWing_ == 3)
+	public void switchBirdWingFlying() {
+		if (duckWing_ == 3 )
 			duckWing_ = 1;
 		else
 			duckWing_++;
+	}
+	/***
+	 * this sets which bird flying away
+	 */
+	public void switchBirdWingAway() {
+		if (duckWing_ == 6 )
+			duckWing_ = 4;
+		else
+			duckWing_++;
+	}
+	/***
+	 * hard sets which position
+	 */
+	public void setBirdWing(int position) {
+		duckWing_ = position;
 	}
 
 	/***
 	 * Determines if the click is in the duck
 	 * 
-	 * @param x
-	 * @param y
-	 * @return
+	 * @param x the x origin
+	 * @param y the y origin
+	 * @return return if it is inside
 	 */
-	public boolean isInside(float x, float y) {
-		float dx = x - x_, dy = y - y_;
-		return (dx * dx + dy * dy < radius_ * radius_);
+	public boolean isInside(float xClick, float yClick) {
+		float xCenter = x_+ length_/2;
+		float yCenter = y_+ length_/2;
+		float dx = xClick - xCenter, dy = yClick - yCenter;
+		return (dx * dx + dy * dy < length_ * length_);
 	}
 
+	/**
+	 * set that the level is ended
+	 */
+	public void setLevelEnded() {
+		levelEnded_ = true;
+	}
 	/***
 	 * Sets the Main instance of the app
 	 * 
@@ -274,9 +398,5 @@ public class Duck implements ApplicationConstants {
 	 */
 	public static void setApp(PApplet theApp) {
 		theApp_ = theApp;
-	}
-
-	public void setLevelEnded() {
-		levelEnded_ = true;
 	}
 }

@@ -24,7 +24,7 @@ public class Dog implements ApplicationConstants {
 	private float x_ = WORLD_WIDTH /2, y_ = WORLD_HEIGHT / 2 - length_, startY_ = y_;
 	
 
-	private float Vy_ = .6f;
+	private float Vy_ = 6f;
 	private PImage dogskin_;
 	private int whichDog_;
 	private int freezeTime_ = 2000;
@@ -55,11 +55,11 @@ public class Dog implements ApplicationConstants {
 		//bottom left
 		theApp_.vertex(0, 0, .88f, .1f);
 		//top left
-		theApp_.vertex(0, .3f, .88f, 0f);
+		theApp_.vertex(0, length_, .88f, 0f);
 		//top right
-		theApp_.vertex(.3f, .3f, 1f, 0f);
+		theApp_.vertex(width_, length_, 1f, 0f);
 		//bottom right
-		theApp_.vertex(.3f, 0, 1f, .1f);
+		theApp_.vertex(width_, 0, 1f, .1f);
 		theApp_.endShape();
 		/*
 			theApp_.pushMatrix();

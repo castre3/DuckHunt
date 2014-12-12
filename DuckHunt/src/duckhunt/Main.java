@@ -58,22 +58,21 @@ public class Main extends PApplet implements ApplicationConstants {
 	 * the current value when the dog vs duck on screen location the value the
 	 * timer is returning
 	 */
-	private static boolean dogAnimateValueFromThread = false; 
+	private static boolean dogAnimateValueFromThread = false;
 	/**
 	 * determine when to clear the duck
 	 */
 	boolean offScreen = false;
-	
+
 	/**
 	 * end early switch for timer
 	 */
 	private static boolean switchTimerValue = false;
 
-
 	public void setup() {
 		size(WINDOW_WIDTH, WINDOW_HEIGHT, P3D);
 		// Timer(dog, duck)
-		Timer time_ = new Timer(10000, 500);
+		Timer time_ = new Timer(5000, 15000);
 		Thread timerThread = new Thread(time_);
 		timerThread.start();
 
@@ -108,7 +107,8 @@ public class Main extends PApplet implements ApplicationConstants {
 				dog_ = null;
 				// Instantiate duck object
 				// the y parameter needs to be above WORLD_HEIGHT/3
-				duck_.add(new Duck(sprite_, WORLD_WIDTH / 2, WORLD_HEIGHT / 2, -PI / 4));
+				duck_.add(new Duck(sprite_, WORLD_WIDTH / 2, WORLD_HEIGHT / 2,
+						-PI / 4));
 				tryCount = 0;
 			} else {
 				// Destroy duck object
@@ -120,64 +120,40 @@ public class Main extends PApplet implements ApplicationConstants {
 				}
 				tryCount = 0;
 				// Instantiate dog object
-				dog_ = new Dog(sprite_,1);
+				dog_ = new Dog(sprite_, 1);
 			}
 		}
-		//draw and animate dog
-		if (dog_!= null) {
-			//dog_.animate();
+		// draw and animate dog
+		if (dog_ != null) {
+			dog_.animate();
 			dog_.draw();
 		}
 
-		// make sure the duck exists
-		if (!duck_.isEmpty()) {
-			// create the wing animation for the duck
-			if (frameCounter++ % 6 == 0) {
-				for (Duck obj : duck_)
-					obj.switchBirdWing();
+		// create the wing animation for the duck
+		if (frameCounter++ % 6 == 0) {
+			for (Duck obj : duck_) {
+				if (obj.getShot()) {
+					obj.setBirdWing(7);
+				} else if (obj.getLevelEnded() && !obj.getShot()) {
+					obj.switchBirdWingAway();
+				} else
+					obj.switchBirdWingFlying();
 			}
+		}
 
-			// move the duck
-			for (Duck obj : duck_)
-				obj.animate();
-	
+		// move the duck
+		for (Duck obj : duck_)
+			obj.animate();
 
-			// make sure the bird is in range and in play, if not remove
-			for (int i = 0; i < duck_.size(); i++) {
-				duck_.get(i).draw();
-				if ((duck_.get(i).getY() < -WORLD_HEIGHT && duck_.get(i).getLevelEnded())
-						|| (duck_.get(i).getY() > WORLD_HEIGHT && duck_.get(i).getLevelEnded())) {
-					duck_.remove(duck_.get(i));
-				}
+		// make sure the bird is in range and in play, if not remove
+		for (int i = 0; i < duck_.size(); i++) {
+			duck_.get(i).draw();
+			if ((duck_.get(i).getY() < -(WORLD_HEIGHT) && duck_.get(i).getLevelEnded()&& duck_.get(i).getShot())
+					|| (duck_.get(i).getY() > (WORLD_HEIGHT) && duck_.get(i).getLevelEnded() && duck_.get(i).getShot())) {
+				duck_.remove(duck_.get(i));
 			}
 		}
 		background_.drawGround();
-	}
-
-	/**
-	 * 
-	 */
-	public void keyReleased() {
-		/*
-		 * switch (key) { case '0': case '1': case '2': case '3': int
-		 * selectedIndex = Integer.parseInt("" + key); break; }
-		 */
-		if (key == '1') {
-			camera(width / 2.0f, height / 2.0f, (height / 2.0f)
-					/ tan(PI * 30.0f / 180.0f), width / 2.0f, height / 2.0f, 0,
-					0, 1, 0);
-
-		} else if (key == '2') {
-			camera(width / 2.0f, height / 1.0f, (height / 1.5f)
-					/ tan(PI * 30.0f / 180.0f), width / 2.0f, height / 2.0f, 0,
-					0, 1, 0);
-
-		} else if (key == '3') {
-			camera(width / 2.0f, height * 2.5f, (height / 3.0f)
-					/ tan(PI * 30.0f / 180.0f), width / 2.0f, height / 2.0f, 0,
-					0, 1, 0);
-
-		}
 	}
 
 	/**
@@ -275,5 +251,9 @@ public class Main extends PApplet implements ApplicationConstants {
 		Background.setApp(this);
 		Timer.setApp(this);
 		return true;
+	}
+	
+	private float PixelToWorld(int var) {
+		return PIXELS_TO_WORLD_SCALE *var;
 	}
 }
