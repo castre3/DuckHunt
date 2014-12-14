@@ -24,13 +24,14 @@ public class Background implements ApplicationConstants {
 		//fill with blue
 		theApp_.beginShape();
 		theApp_.noStroke();
-		if (Main.flewAway_) {
+		if(Main.endGame_) {
+			theApp_.fill(0);
+		}
+		else if (Main.flewAway_) {
 			//pink
 			theApp_.fill(255,170,153);
 		}
-		else if(Main.endGame_) {
-			theApp_.fill(0);
-		}
+		
 		else {
 			theApp_.fill(63,191,255);
 		}
