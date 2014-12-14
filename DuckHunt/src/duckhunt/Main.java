@@ -78,6 +78,11 @@ public class Main extends PApplet implements ApplicationConstants {
 	private ScoreKeeper scorekeeper_;
 	
 	static boolean flewAway_= false;
+	
+	public static boolean endGame_ = false;
+	
+	boolean aDuckShot = false;
+
 
 	public void setup() {
 		size(WINDOW_WIDTH, WINDOW_HEIGHT, P3D);
@@ -89,7 +94,7 @@ public class Main extends PApplet implements ApplicationConstants {
 		timerThread.start();
 
 		// set up the cursor
-		cursor_ = loadImage("target.png");
+		cursor_ = loadImage("target.gif");
 		cursor(cursor_);
 
 		// loading images
@@ -108,7 +113,7 @@ public class Main extends PApplet implements ApplicationConstants {
 
 	public void draw() {
 		if (scorekeeper_.getCurrentLevel() <= 10) {
-			println(duck_.size());
+			println("Current ducks in play: " + duck_.size());
 			background_.draw();
 			pushMatrix();
 			translate(1, WINDOW_HEIGHT);
@@ -120,22 +125,35 @@ public class Main extends PApplet implements ApplicationConstants {
 					// Destroy dog object
 					dog_ = null;
 					// Instantiate duck object
-					duck_.add(new Duck(sprite_, WORLD_WIDTH / 2,
-							WORLD_HEIGHT / 2, -PI / 4));
+					duck_.add(new Duck(sprite_, WORLD_WIDTH / 2, WORLD_HEIGHT / 2, -PI / 4));
 					scorekeeper_.resetBullets();
 					tryCount = 0;
 				} else {
 					scorekeeper_.increaseLevelFlash();
+					
 					// Destroy duck object
 					for (Duck obj : duck_) {
 						obj.setVx(0); // temporarily make it not move
 						obj.setVy(0);
 						obj.setVy(1f); // make it fly up screen
 						obj.setLevelEnded();
+						if (obj.getShot()) {
+							flewAway_= false;
+							aDuckShot = true;
+						} 
+						else
+							flewAway_= true;
+							
 					}
 					tryCount = 0;
 					// Instantiate dog object
-					dog_ = new Dog(sprite_, 1);
+					if (aDuckShot) {
+						dog_ = new Dog(sprite_, 1);
+					}
+					else {
+						dog_ = new Dog(sprite_, 0);
+					}
+					aDuckShot = false;
 				}
 			}
 			// draw and animate dog
@@ -150,9 +168,11 @@ public class Main extends PApplet implements ApplicationConstants {
 				for (Duck obj : duck_) {
 					if (obj.getShot()) {
 						obj.setBirdWing(7);
-					} else if (obj.getLevelEnded() && !obj.getShot()) {
+					} 
+					else if (obj.getLevelEnded() && !obj.getShot()) {
 						obj.switchBirdWingAway();
-					} else
+					} 
+					else
 						obj.switchBirdWingFlying();
 				}
 			}
@@ -164,11 +184,6 @@ public class Main extends PApplet implements ApplicationConstants {
 			// make sure the bird is in range and in play, if not remove
 			for (int i = 0; i < duck_.size(); i++) {
 				duck_.get(i).draw();
-				if (duck_.get(i).getLevelEnded()) {
-					println(duck_.get(i).getY() * WORLD_TO_PIXELS_SCALE + " : "
-							+ duck_.get(i).getShot());
-				}
-
 				if ((duck_.get(i).getY() * WORLD_TO_PIXELS_SCALE < 0 && duck_.get(i).getLevelEnded())
 						|| (duck_.get(i).getY() * WORLD_TO_PIXELS_SCALE > WINDOW_HEIGHT && duck_.get(i).getLevelEnded())) {
 					duck_.remove(duck_.get(i));
@@ -185,6 +200,12 @@ public class Main extends PApplet implements ApplicationConstants {
 			vertex(WINDOW_WIDTH, 0, 1, 0);
 			endShape(PConstants.CLOSE);
 			scorekeeper_.draw();
+		}
+		else {
+			endGame_ = true;
+			background_.draw();
+			duck_.clear();
+			dog_ = null;
 		}
 	}
 

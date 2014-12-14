@@ -25,7 +25,7 @@ public class Dog implements ApplicationConstants {
 	 * X and Y, as well as a variable to store the Y we initially start at so we
 	 * can get back to it
 	 */
-	private float x_ = WORLD_WIDTH / 2, y_ = WORLD_HEIGHT / 2 - length_,startY_ = y_;
+	private float x_ = WORLD_WIDTH / 2, y_ = WORLD_HEIGHT / 2 - length_-.035f,startY_ = y_;
 	/**
 	 * The speed at which the dog moves up and down
 	 */
@@ -46,7 +46,7 @@ private int freezeTime_ = 500;
 	/**
 	 * How long the dog waits at the bottom of the screen to animate
 	 */
-	private int initialWaitTime_ = 0;
+	private int initialWaitTime_ = 1000;
 	/**
 	 * Which direction he's heading in 1 = up 2 = Not moving 3 = down
 	 */
@@ -86,7 +86,10 @@ private int freezeTime_ = 500;
 		 * If whichDog_ = 2, we need the sprite with him holding two dead ducks
 		 * If whichDog_ = 3, we need the animation of him laughing at you
 		 */
-		if (whichDog_ == 1) {
+		if (whichDog_ == 0) {
+			dogLaugh();
+		}
+		else if (whichDog_ == 1) {
 			// Bottom left
 			theApp_.vertex(0, 0, .83f, .15f);
 			// Top left
@@ -95,7 +98,8 @@ private int freezeTime_ = 500;
 			theApp_.vertex(width_, length_, 1f, .02f);
 			// Bottom right
 			theApp_.vertex(width_, 0, 1f, .15f);
-		} else if (whichDog_ == 2) {
+		} 
+		else if (whichDog_ == 2) {
 			// Bottom left
 			theApp_.vertex(0, 0, .824f, .283f);
 			// Top left
@@ -104,9 +108,8 @@ private int freezeTime_ = 500;
 			theApp_.vertex(width_, length_, 1.002f, .153f);
 			// Bottom right
 			theApp_.vertex(width_, 0, 1.002f, .283f);
-		} else if (whichDog_ == 3) {
-			dogLaugh();
 		}
+		
 
 		theApp_.endShape();
 		theApp_.popMatrix();
@@ -129,7 +132,8 @@ private int freezeTime_ = 500;
 			theApp_.vertex(width_, length_, .801f, .143f);
 			// Bottom right
 			theApp_.vertex(width_, 0, .801f, .273f);
-		} else {
+		} 
+		else {
 			theApp_.vertex(0, 0, .463f, .273f);
 			// Top left
 			theApp_.vertex(0, length_, .463f, .143f);
@@ -162,11 +166,13 @@ private int freezeTime_ = 500;
 					direction = 2;
 					startTimeMove_ = theApp_.millis();
 				}
-			} else if (direction == 2) {
+			} 
+			else if (direction == 2) {
 				if (currentTime_ - startTimeMove_ > freezeTime_) {
 					direction = 3;
 				}
-			} else if (direction == 3) {
+			} 
+			else if (direction == 3) {
 				if (y_ > startY_) {
 					y_ -= changeInY_;
 				}

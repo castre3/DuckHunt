@@ -18,7 +18,7 @@ public class Duck implements ApplicationConstants {
 	/**
 	 * how long it takes the duck to fly across screen
 	 */
-	private static final float ACROSS_WORLD_TIME = 1f; /* seconds */
+	private static final float ACROSS_WORLD_TIME = .7f; /* seconds */
 	/**
 	 * The max speed the duck can go
 	 */
