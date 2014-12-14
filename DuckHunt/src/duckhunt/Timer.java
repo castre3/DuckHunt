@@ -20,7 +20,6 @@ public class Timer implements Runnable {
 
 	
 	public Timer(int timeForDogAnimation, int timeForGameplay){
-		
 		/**
 		 * Accept our values and set them
 		 */
@@ -28,7 +27,6 @@ public class Timer implements Runnable {
 		timeForGameplay_ = timeForGameplay;
 	
 	}
-	
 	
 	/**
 	 * Run an infinite loop inside a thread.  
@@ -49,7 +47,6 @@ public class Timer implements Runnable {
 			}
 			startTimer();	
 		}	
-		
 	}
 	
 	/**

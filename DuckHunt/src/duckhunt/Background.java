@@ -21,23 +21,21 @@ public class Background implements ApplicationConstants {
 	 * sets up the background and displays it
 	 */
 	void draw() {
-
+		//fill with blue
 		theApp_.beginShape();
 		theApp_.noStroke();
-		theApp_.texture(background_);
+		if (Main.flewAway_) {
+			//pink
+			theApp_.fill(255,170,153);
+		}
+		else {
+			theApp_.fill(63,191,255);
+		}
+		
 		theApp_.vertex(0, 0, 0, 0);
 		theApp_.vertex(0, WINDOW_HEIGHT, 0, 1);
 		theApp_.vertex(WINDOW_WIDTH, WINDOW_HEIGHT, 1, 1);
 		theApp_.vertex(WINDOW_WIDTH, 0, 1, 0);
-		theApp_.endShape(PConstants.CLOSE);
-
-		theApp_.beginShape();
-		theApp_.texture(ground_);
-		theApp_.vertex(0, 4 * WINDOW_HEIGHT / 6 - 1.5f, 0, 0);
-		theApp_.vertex(0, WINDOW_HEIGHT, 0, 1);
-		theApp_.vertex(WINDOW_WIDTH, WINDOW_HEIGHT, 1, 1);
-		theApp_.vertex(WINDOW_WIDTH, 4 * WINDOW_HEIGHT / 6 - 1.5f, 1, 0);
-
 		theApp_.endShape(PConstants.CLOSE);
 	}
 

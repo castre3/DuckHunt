@@ -379,8 +379,8 @@ public class Duck implements ApplicationConstants {
 	 * @return return if it is inside
 	 */
 	public boolean isInside(float xClick, float yClick) {
-		float xCenter = x_+ length_/2;
-		float yCenter = y_+ length_/2;
+		float xCenter = x_+ length_;
+		float yCenter = y_+ length_;
 		float dx = xClick - xCenter, dy = yClick - yCenter;
 		return (dx * dx + dy * dy < length_ * length_);
 	}
