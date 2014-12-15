@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PImage;
-import sun.awt.windows.WWindowPeer;
 
 public class Main extends PApplet implements ApplicationConstants {
 
@@ -20,7 +19,6 @@ public class Main extends PApplet implements ApplicationConstants {
 	 * instance of the Dog
 	 */
 	Dog dog_;
-
 	/**
 	 * Keeps track of how many times the person has hit a duck this is for when
 	 * we implement more that one duck
@@ -35,6 +33,26 @@ public class Main extends PApplet implements ApplicationConstants {
 	 */
 	PImage _backgroundImage;
 	/**
+	 * The sprite containing all of the characters
+	 */
+	PImage sprite_;
+	/**
+	 * The sprite for the title screen
+	 */
+	PImage titlescreen_;
+	/**
+	 * The sprite for the game over screen
+	 */
+	PImage gameover_;
+	/**
+	 * the image on the mouse
+	 */
+	PImage cursor_;
+	/**
+	 * the score board sprite
+	 */
+	PImage scoreSprite_;
+	/**
 	 * the background instance object
 	 */
 	Background background_;
@@ -42,14 +60,11 @@ public class Main extends PApplet implements ApplicationConstants {
 	 * frame counter variable for animation
 	 */
 	private int frameCounter = 0;
+	
 	/**
-	 * The sprite containing all of the characters
+	 * The timer instance (how long the dog animates, how long the gameplay is)
 	 */
-	PImage sprite_;
-	/**
-	 * The timer instance
-	 */
-	Timer time_;
+	Timer time_ = new Timer(2000, 5000);
 	/**
 	 * the current value when the dog vs duck on screen location current working
 	 * on
@@ -59,39 +74,32 @@ public class Main extends PApplet implements ApplicationConstants {
 	 * the current value when the dog vs duck on screen location the value the
 	 * timer is returning
 	 */
-	private static boolean dogAnimateValueFromThread = false;
+	private boolean dogAnimateValueFromTimer = false;
 	/**
 	 * determine when to clear the duck
 	 */
 	boolean offScreen = false;
 	/**
-	 * end early switch for timer
+	 * determines if a bird got shot
 	 */
-	private static boolean switchTimerValue = false;
+	static boolean flewAway_= false;
 	/**
-	 * the image on the mouse
+	 * time to display the start up screen
 	 */
-	PImage cursor_;
+	public static boolean startScreen_ = true;
+	/** 
+	 * if a duck was shot
+	 */
+	boolean aDuckShot = false;
 	/**
 	 * the instance of the scorekeeper
 	 */
 	private ScoreKeeper scorekeeper_;
 	
-	static boolean flewAway_= false;
-	
-	public static boolean endGame_ = false;
-	
-	boolean aDuckShot = false;
-
 
 	public void setup() {
 		size(WINDOW_WIDTH, WINDOW_HEIGHT, P3D);
 		frameRate(2000);
-
-		// Timer(dog, duck)
-		Timer time_ = new Timer(2000, 5000);
-		Thread timerThread = new Thread(time_);
-		timerThread.start();
 
 		// set up the cursor
 		cursor_ = loadImage("target.gif");
@@ -101,26 +109,62 @@ public class Main extends PApplet implements ApplicationConstants {
 		textureMode(NORMAL);
 		sprite_ = loadImage("sprite.png");
 		_backgroundImage = loadImage("backgroundTransparent.gif");
-		//_backgroundImage = loadImage("background.jpg");
-		PImage ground_ = loadImage("ground.jpg");
-		PImage allSprite_ = loadImage("duckhunt_various_sheet.png");
-		PImage scoreSprite_ = loadImage("ScoreSprite.gif");
+		scoreSprite_ = loadImage("ScoreSprite.gif");
+		titlescreen_ = loadImage("titlescreen.jpg");
+		gameover_ = loadImage("gameover.jpg");
 
 		duck_ = new ArrayList<Duck>();
-		background_ = new Background(ground_, _backgroundImage, allSprite_);
+		background_ = new Background();
 		scorekeeper_ = new ScoreKeeper(scoreSprite_);
 	}
 
 	public void draw() {
-		if (scorekeeper_.getCurrentLevel() <= 10) {
+		
+		/**
+		 * If the game hasn't even begun yet...
+		 */
+		if(startScreen_){
+			beginShape();
+			noStroke();
+			texture(titlescreen_);
+			vertex(0, 0, 0, 0);
+			vertex(0, WINDOW_HEIGHT, 0, 1);
+			vertex(WINDOW_WIDTH, WINDOW_HEIGHT, 1, 1);
+			vertex(WINDOW_WIDTH, 0, 1, 0);
+			endShape(PConstants.CLOSE);
+		}
+		
+		/**
+		 * else if the game is over...
+		 */
+		else if(scorekeeper_.getCurrentLevel() > 10){
+			duck_.clear();
+			dog_ = null;
+			beginShape();
+			noStroke();
+			texture(gameover_);
+			vertex(0, 0, 0, 0);
+			vertex(0, WINDOW_HEIGHT, 0, 1);
+			vertex(WINDOW_WIDTH, WINDOW_HEIGHT, 1, 1);
+			vertex(WINDOW_WIDTH, 0, 1, 0);
+			endShape(PConstants.CLOSE);
+		}
+		
+	
+		/**
+		 * If we get to here, we're playing the game
+		 */
+		else {
 			println("Current ducks in play: " + duck_.size());
 			background_.draw();
 			pushMatrix();
 			translate(1, WINDOW_HEIGHT);
 			scale(WORLD_TO_PIXELS_SCALE, -WORLD_TO_PIXELS_SCALE);
 
-			if (dogAnimateValueFromThread != dogAnimate_) {
-				dogAnimate_ = getDogAnimateValueFromThread();
+			//Get the current value of dogAnimate from the timer
+			dogAnimateValueFromTimer = time_.getValue(); 
+			if (dogAnimateValueFromTimer != dogAnimate_) {
+				dogAnimate_ = dogAnimateValueFromTimer;
 				if (dogAnimate_ == false) {
 					// Destroy dog object
 					dog_ = null;
@@ -184,8 +228,8 @@ public class Main extends PApplet implements ApplicationConstants {
 			// make sure the bird is in range and in play, if not remove
 			for (int i = 0; i < duck_.size(); i++) {
 				duck_.get(i).draw();
-				if ((duck_.get(i).getY() * WORLD_TO_PIXELS_SCALE < 0 && duck_.get(i).getLevelEnded())
-						|| (duck_.get(i).getY() * WORLD_TO_PIXELS_SCALE > WINDOW_HEIGHT && duck_.get(i).getLevelEnded())) {
+				if ((duck_.get(i).getY() * WORLD_TO_PIXELS_SCALE < 0 && duck_.get(i).getLevelEnded()||duck_.get(i).getY() * WORLD_TO_PIXELS_SCALE < 0 && duck_.get(i).getShot())
+						|| (duck_.get(i).getY() * WORLD_TO_PIXELS_SCALE > WINDOW_HEIGHT && duck_.get(i).getLevelEnded()|| duck_.get(i).getY() * WORLD_TO_PIXELS_SCALE > WINDOW_HEIGHT && duck_.get(i).getShot())) {
 					duck_.remove(duck_.get(i));
 					flewAway_= false;
 				}
@@ -201,18 +245,13 @@ public class Main extends PApplet implements ApplicationConstants {
 			endShape(PConstants.CLOSE);
 			scorekeeper_.draw();
 		}
-		else {
-			endGame_ = true;
-			background_.draw();
-			duck_.clear();
-			dog_ = null;
-		}
 	}
 
 	/**
 	 * This controls what happens when you shoot the duck
 	 */
 	public void mouseReleased() {
+		startScreen_ = false; //Click to get past the start screen
 		tryCount++;
 		if (tryCount == 1) {
 			scorekeeper_.setTwoBullet();
@@ -268,22 +307,6 @@ public class Main extends PApplet implements ApplicationConstants {
 
 	private float yPixelToWorld(int iy) {
 		return Y_MIN + PIXELS_TO_WORLD_SCALE * (WINDOW_HEIGHT - iy);
-	}
-
-	public static void setDogAnimateValueFromThread(boolean value) {
-		dogAnimateValueFromThread = value;
-	}
-
-	public static boolean getDogAnimateValueFromThread() {
-		return dogAnimateValueFromThread;
-	}
-
-	public static void resetSwitchTimerValue() {
-		switchTimerValue = false;
-	}
-
-	public static boolean getSwitchTimerValue() {
-		return switchTimerValue;
 	}
 
 	/**

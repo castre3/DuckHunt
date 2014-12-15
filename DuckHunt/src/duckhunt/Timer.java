@@ -3,19 +3,24 @@ package duckhunt;
 import processing.core.PApplet;
 
 
-public class Timer implements Runnable {
+public class Timer{
 	
 	/**
 	 * Our instance variables.  
 	 * timeForDogAnimation is the amount of time we will allow the dog to animate
 	 * timeForGameplay is the amount of time we will allow to shoot at the duck
+	 * startTime is the time we start the current "clock cycle" at (used to determined when the
+	 * 	"cycle" is over
 	 * currentTime is the current time
+	 * dogAnimate_ holds the current timer value of "dogAnimate_"
 	 * endTime is the time we are waiting for until we switch
 	 */
 	private static PApplet theApp_;
 	int timeForDogAnimation_;
 	int timeForGameplay_;		
-	int currentTime = theApp_.millis();
+	int startTime_ = theApp_.millis();
+	int currentTime = startTime_;
+	boolean dogAnimate_ = false;
 	int endTime;
 
 	
@@ -29,35 +34,40 @@ public class Timer implements Runnable {
 	}
 	
 	/**
-	 * Run an infinite loop inside a thread.  
-	 * Check the static value dogAnimateValueFromThread and set the new endTime depending
-	 * on what point in the game we are at.  Then call "startTimer" to get the timer going
-	 * until we need to switch again.
+	 * If the dog is animating (dogAnimate_ is true), check if we're done the current cycle.
+	 * 		--If so, switch dogAnimate_ to false and reset the "startTime_"
+	 * If the ducks are animating (dogAnimate_ is false), check if we're done the current cycle.
+	 * 		--If so, switch dogAnimate_ to true and reset the "startTime_"
+	 * Then return the value of dogAnimate_ after the calculation
 	 */
-	public void run(){
+	public boolean getValue(){
 	
-		while(true){
-			//reset the switch value to false after a switch time sequence has occurred
-			Main.resetSwitchTimerValue(); 
-			if(Main.getDogAnimateValueFromThread()){
-				endTime = currentTime + timeForDogAnimation_;
+		currentTime = theApp_.millis();
+		
+		if(dogAnimate_){
+			if (currentTime - startTime_ > timeForDogAnimation_){
+				dogAnimate_ = false;
+				startTime_ = theApp_.millis();
 			}
-			else{
-				endTime = currentTime + timeForGameplay_;
+		}
+		else{
+			if (currentTime - startTime_ > timeForGameplay_){
+				dogAnimate_ = true;
+				startTime_ = theApp_.millis();
 			}
-			startTimer();	
-		}	
+		}
+		return dogAnimate_;
+		
 	}
 	
 	/**
-	 * Until we get to the endTime, continue looping, then switch the static value
+	 * Used if we need to quickly end the "clock cycle" we're currently in
 	 */
-	private void startTimer(){
-		while(currentTime < endTime && !Main.getSwitchTimerValue()){
-			currentTime = theApp_.millis();
-		}
-		Main.setDogAnimateValueFromThread(!Main.getDogAnimateValueFromThread());
+	public void switchValue(){
+		dogAnimate_ = !dogAnimate_;
+		startTime_ = theApp_.millis();
 	}
+
 	
 	/**
 	 * Set the app

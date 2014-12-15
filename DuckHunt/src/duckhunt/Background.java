@@ -6,15 +6,11 @@ import processing.core.PImage;
 
 public class Background implements ApplicationConstants {
 
-	private PImage ground_;
-	private PImage allSprites_;
-	private PImage background_;
+
 	private static PApplet theApp_;
 
-	public Background(PImage ground, PImage background, PImage allSprite) {
-		ground_ = ground;
-		allSprites_ = allSprite;
-		background_ = background;
+	public Background() {
+
 	}
 
 	/**
@@ -24,10 +20,8 @@ public class Background implements ApplicationConstants {
 		//fill with blue
 		theApp_.beginShape();
 		theApp_.noStroke();
-		if(Main.endGame_) {
-			theApp_.fill(0);
-		}
-		else if (Main.flewAway_) {
+
+		if (Main.flewAway_) {
 			//pink
 			theApp_.fill(255,170,153);
 		}
@@ -42,11 +36,7 @@ public class Background implements ApplicationConstants {
 		theApp_.vertex(WINDOW_WIDTH, 0, 1, 0);
 		theApp_.endShape(PConstants.CLOSE);
 	}
-
-	void drawOpen() {
-		
-
-	}
+	
 
 	/***
 	 * 
