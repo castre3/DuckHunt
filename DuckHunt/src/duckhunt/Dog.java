@@ -46,7 +46,7 @@ private int freezeTime_ = 500;
 	/**
 	 * How long the dog waits at the bottom of the screen to animate
 	 */
-	private int initialWaitTime_ = 1000;
+	private int initialWaitTime_ = 0;
 	/**
 	 * Which direction he's heading in 1 = up 2 = Not moving 3 = down
 	 */

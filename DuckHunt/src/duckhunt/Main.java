@@ -155,7 +155,7 @@ public class Main extends PApplet implements ApplicationConstants {
 		 * If we get to here, we're playing the game
 		 */
 		else {
-			println("Current ducks in play: " + duck_.size());
+			//println("Current ducks in play: " + duck_.size());
 			background_.draw();
 			pushMatrix();
 			translate(1, WINDOW_HEIGHT);
@@ -174,20 +174,21 @@ public class Main extends PApplet implements ApplicationConstants {
 					tryCount = 0;
 				} else {
 					scorekeeper_.increaseLevelFlash();
-					
+					aDuckShot = false;
 					// Destroy duck object
 					for (Duck obj : duck_) {
-						obj.setVx(0); // temporarily make it not move
-						obj.setVy(0);
-						obj.setVy(1f); // make it fly up screen
-						obj.setLevelEnded();
-						if (obj.getShot()) {
-							flewAway_= false;
-							aDuckShot = true;
-						} 
-						else
+						if (obj.getShot() == false) {
+							obj.setVx(0); // temporarily make it not move
+							obj.setVy(0);
+							obj.setVy(1f); // make it fly up screen
+							obj.setLevelEnded();
 							flewAway_= true;
-							
+						}
+						else {
+							aDuckShot = true;
+							flewAway_= false;
+						} 
+								
 					}
 					tryCount = 0;
 					// Instantiate dog object
