@@ -155,12 +155,12 @@ public class Main extends PApplet implements ApplicationConstants {
 		 * If we get to here, we're playing the game
 		 */
 		else {
-			//println("Current ducks in play: " + duck_.size());
 			background_.draw();
 			pushMatrix();
 			translate(1, WINDOW_HEIGHT);
 			scale(WORLD_TO_PIXELS_SCALE, -WORLD_TO_PIXELS_SCALE);
 
+			aDuckShot = false;
 			//Get the current value of dogAnimate from the timer
 			dogAnimateValueFromTimer = time_.getValue(); 
 			if (dogAnimateValueFromTimer != dogAnimate_) {
@@ -170,11 +170,12 @@ public class Main extends PApplet implements ApplicationConstants {
 					dog_ = null;
 					// Instantiate duck object
 					duck_.add(new Duck(sprite_, WORLD_WIDTH / 2, WORLD_HEIGHT / 2, -PI / 4));
+					aDuckShot = false;
 					scorekeeper_.resetBullets();
 					tryCount = 0;
 				} else {
 					scorekeeper_.increaseLevelFlash();
-					aDuckShot = false;
+					
 					// Destroy duck object
 					for (Duck obj : duck_) {
 						if (obj.getShot() == false) {
@@ -198,7 +199,6 @@ public class Main extends PApplet implements ApplicationConstants {
 					else {
 						dog_ = new Dog(sprite_, 0);
 					}
-					aDuckShot = false;
 				}
 			}
 			// draw and animate dog

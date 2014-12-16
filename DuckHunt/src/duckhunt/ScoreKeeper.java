@@ -57,8 +57,24 @@ public class ScoreKeeper implements ApplicationConstants {
 		// Bottom right
 		theApp_.vertex(3 * WINDOW_WIDTH / 4-10, 39 * WINDOW_HEIGHT / 40, .32f, .8f);
 		theApp_.endShape(PConstants.CLOSE);
-
-
+		
+		theApp_.beginShape();
+		theApp_.noStroke();
+		theApp_.noFill();
+		theApp_.stroke(255);
+		//theApp_.texture(scoreSprite_);
+		// Bottom left
+		theApp_.vertex(310, 560, .2f, .97f);
+		// Top left
+		theApp_.vertex(310, 530, .2f,.93f);
+		// Top right
+		theApp_.vertex(565, 530,.34f, .93f);
+		// Bottom right
+		theApp_.vertex(565, 560, .34f, .97f);
+		
+		theApp_.endShape(PConstants.CLOSE);
+		
+		
 		if (flashRound_) {
 			// making only 5 rounds
 			theApp_.fill(0);
