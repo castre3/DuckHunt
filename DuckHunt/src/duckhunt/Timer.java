@@ -1,7 +1,5 @@
 package duckhunt;
-
 import processing.core.PApplet;
-
 
 public class Timer{
 	
@@ -68,7 +66,6 @@ public class Timer{
 		startTime_ = theApp_.millis();
 	}
 
-	
 	/**
 	 * Set the app
 	 * @param theApp

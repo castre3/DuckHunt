@@ -2,16 +2,16 @@ package duckhunt;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
-import processing.core.PImage;
 
 public class Background implements ApplicationConstants {
-
-
+	/**
+	 * The local instance of the application
+	 */
 	private static PApplet theApp_;
-
-	public Background() {
-
-	}
+	/**
+	 * the constructor
+	 */
+	public Background() {}
 
 	/**
 	 * sets up the background and displays it
@@ -36,8 +36,6 @@ public class Background implements ApplicationConstants {
 		theApp_.vertex(WINDOW_WIDTH, 0, 1, 0);
 		theApp_.endShape(PConstants.CLOSE);
 	}
-	
-
 	/***
 	 * 
 	 * @param theApp

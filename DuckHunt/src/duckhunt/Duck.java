@@ -1,7 +1,6 @@
 package duckhunt;
 
 import processing.core.PApplet;
-import processing.core.PConstants;
 import processing.core.PImage;
 
 /***
@@ -40,7 +39,7 @@ public class Duck implements ApplicationConstants {
 	 */
 	private boolean levelEnded_ = false;
 	/**
-	 * 	
+	 * 	the lenght of the sprite
 	 */
 	private float length_ = 0.15f;
 	/**
@@ -54,10 +53,10 @@ public class Duck implements ApplicationConstants {
 	private int duckWing_ = 1;
 
 	/***
-	 * 
-	 * @param x
-	 * @param y
-	 * @param angle
+	 * The duck constructor
+	 * @param x the x location
+	 * @param y the y location
+	 * @param angle the starting angle
 	 */
 	public Duck(PImage sprite, float x, float y, float angle) {
 		x_ = x;
@@ -270,26 +269,6 @@ public class Duck implements ApplicationConstants {
 		if (((y_ < (Y_MAX * 1 / 3)) || (y_ >= Y_MAX- .15f)) && !shot && !levelEnded_) {
 			Vy_ = -Vy_;
 		}
-	}
-
-	/***
-	 * changed the location of the duck
-	 * 
-	 * @param x float the x location
-	 * @param y float the y location
-	 */
-	public void setPosition(float x, float y) {
-		x_ = x;
-		y_ = y;
-	}
-
-	/***
-	 * returns the x location
-	 * 
-	 * @return x
-	 */
-	public float getX() {
-		return x_;
 	}
 
 	/***

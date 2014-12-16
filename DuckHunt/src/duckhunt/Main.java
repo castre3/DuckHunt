@@ -20,11 +20,6 @@ public class Main extends PApplet implements ApplicationConstants {
 	 */
 	Dog dog_;
 	/**
-	 * Keeps track of how many times the person has hit a duck this is for when
-	 * we implement more that one duck
-	 */
-	private int shotCount = 0;
-	/**
 	 * Keeps track of how many times the person has tried and shot
 	 */
 	private int tryCount = 0;
@@ -64,7 +59,7 @@ public class Main extends PApplet implements ApplicationConstants {
 	/**
 	 * The timer instance (how long the dog animates, how long the gameplay is)
 	 */
-	Timer time_ = new Timer(2000, 5000);
+	Timer time_;
 	/**
 	 * the current value when the dog vs duck on screen location current working
 	 * on
@@ -107,15 +102,21 @@ public class Main extends PApplet implements ApplicationConstants {
 
 		// loading images
 		textureMode(NORMAL);
+		//the duck's animation
 		sprite_ = loadImage("sprite.png");
+		//the trees and the ground
 		_backgroundImage = loadImage("backgroundTransparent.gif");
+		//the scoreboard
 		scoreSprite_ = loadImage("ScoreSprite.gif");
+		//the title screen
 		titlescreen_ = loadImage("titlescreen.jpg");
+		//the end game
 		gameover_ = loadImage("gameover.jpg");
 
 		duck_ = new ArrayList<Duck>();
 		background_ = new Background();
 		scorekeeper_ = new ScoreKeeper(scoreSprite_);
+		
 	}
 
 	public void draw() {
@@ -160,7 +161,11 @@ public class Main extends PApplet implements ApplicationConstants {
 			translate(1, WINDOW_HEIGHT);
 			scale(WORLD_TO_PIXELS_SCALE, -WORLD_TO_PIXELS_SCALE);
 
-			aDuckShot = false;
+			for (Duck obj : duck_) {
+				if (obj.getShot() == true){
+					aDuckShot = true;
+				}
+			}
 			//Get the current value of dogAnimate from the timer
 			dogAnimateValueFromTimer = time_.getValue(); 
 			if (dogAnimateValueFromTimer != dogAnimate_) {
@@ -170,7 +175,6 @@ public class Main extends PApplet implements ApplicationConstants {
 					dog_ = null;
 					// Instantiate duck object
 					duck_.add(new Duck(sprite_, WORLD_WIDTH / 2, WORLD_HEIGHT / 2, -PI / 4));
-					aDuckShot = false;
 					scorekeeper_.resetBullets();
 					tryCount = 0;
 				} else {
@@ -186,7 +190,6 @@ public class Main extends PApplet implements ApplicationConstants {
 							flewAway_= true;
 						}
 						else {
-							aDuckShot = true;
 							flewAway_= false;
 						} 
 								
@@ -199,8 +202,11 @@ public class Main extends PApplet implements ApplicationConstants {
 					else {
 						dog_ = new Dog(sprite_, 0);
 					}
+					aDuckShot = false;
 				}
 			}
+			
+			
 			// draw and animate dog
 			if (dog_ != null) {
 				dog_.animate();
@@ -252,7 +258,10 @@ public class Main extends PApplet implements ApplicationConstants {
 	 * This controls what happens when you shoot the duck
 	 */
 	public void mouseReleased() {
-		startScreen_ = false; //Click to get past the start screen
+		if(startScreen_){
+			time_ = new Timer(2000, 5000);
+			startScreen_ = false; //Click to get past the start screen
+		}
 		tryCount++;
 		if (tryCount == 1) {
 			scorekeeper_.setTwoBullet();
@@ -267,7 +276,6 @@ public class Main extends PApplet implements ApplicationConstants {
 				obj.setVy(0);
 				obj.setVy(-1f); // make it fall off screen
 				obj.setShot(); // Set "shot" to "false"
-				shotCount++;
 				wasInside = true;
 				delay(500); // do the "pause" thing
 				break;

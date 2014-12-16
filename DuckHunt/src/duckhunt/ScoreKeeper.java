@@ -9,18 +9,38 @@ public class ScoreKeeper implements ApplicationConstants {
 	 * the local instance of the application
 	 */
 	private static PApplet theApp_;
+	/**
+	 * the scorebard sprite
+	 */
 	private PImage scoreSprite_;
+	/**
+	 * determines if two bullets should display
+	 */
 	private boolean twoBullets_ = false;
+	/**
+	 * determines if one bullets should display
+	 */
 	private boolean oneBullet_ = false;
+	/**
+	 * determines if no bullets should display
+	 */
 	private boolean noBullet_ = false;
+	/**
+	 * determines when the black thing is flashing over level duck
+	 */
 	private boolean flashRound_ = true;
+	/**
+	 * tells how much black flashy thing should move
+	 */
 	private int addition_ = 0;
+	/**
+	 * determines current level
+	 */
 	private int currentLevel_= 1;
 
 	/**
 	 * the constructor for the scorekeeper
-	 * 
-	 * @param scoreSprite_
+	 * @param scoreSprite_ the scoreboard sprite
 	 */
 	public ScoreKeeper(PImage scoreSprite) {
 		scoreSprite_ = scoreSprite;
@@ -57,24 +77,7 @@ public class ScoreKeeper implements ApplicationConstants {
 		// Bottom right
 		theApp_.vertex(3 * WINDOW_WIDTH / 4-10, 39 * WINDOW_HEIGHT / 40, .32f, .8f);
 		theApp_.endShape(PConstants.CLOSE);
-		
-		theApp_.beginShape();
-		theApp_.noStroke();
-		theApp_.noFill();
-		theApp_.stroke(255);
-		//theApp_.texture(scoreSprite_);
-		// Bottom left
-		theApp_.vertex(310, 560, .2f, .97f);
-		// Top left
-		theApp_.vertex(310, 530, .2f,.93f);
-		// Top right
-		theApp_.vertex(565, 530,.34f, .93f);
-		// Bottom right
-		theApp_.vertex(565, 560, .34f, .97f);
-		
-		theApp_.endShape(PConstants.CLOSE);
-		
-		
+
 		if (flashRound_) {
 			// making only 5 rounds
 			theApp_.fill(0);
@@ -163,6 +166,13 @@ public class ScoreKeeper implements ApplicationConstants {
 		oneBullet_ = false;
 		twoBullets_ = false;
 		noBullet_ = false;
+	}	
+	/**
+	 * returns the current level
+	 * @return current level
+	 */
+	public int getCurrentLevel() {
+		return currentLevel_;
 	}
 
 	/***
@@ -173,7 +183,5 @@ public class ScoreKeeper implements ApplicationConstants {
 		theApp_ = theApp;
 	}
 
-	public int getCurrentLevel() {
-		return currentLevel_;
-	}
+
 }
